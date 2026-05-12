@@ -1,48 +1,38 @@
-import java.awt.*;
-import java.awt.event.*;
+package exp1;
 
-public class KeyEventDemo extends Frame implements KeyListener {
-    String msg = "";
+import java.applet.Applet;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-    public KeyEventDemo() {
-        setTitle("Key Event Demo");
-        setSize(400, 200);
-        setLayout(new FlowLayout());
-        
-        Label label = new Label("Press any key...");
-        add(label);
-        
-        addKeyListener(this);
-        setVisible(true);
-        
-        // Close window
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                System.exit(0);
-            }
-        });
-    }
-
-    public void keyPressed(KeyEvent e) {
-        msg = "Key Pressed: " + e.getKeyChar();
-        repaint();
-    }
-
-    public void keyReleased(KeyEvent e) {
-        msg = "Key Released: " + e.getKeyChar();
-        repaint();
-    }
-
-    public void keyTyped(KeyEvent e) {
-        msg = "Key Typed: " + e.getKeyChar();
-        repaint();
-    }
-
-    public void paint(Graphics g) {
-        g.drawString(msg, 100, 100);
-    }
-
-    public static void main(String[] args) {
-        new KeyEventDemo();
-    }
+public class KeyBoardApplet extends Applet implements KeyListener{
+	String str;
+	
+	public void init() {
+		addKeyListener(this);
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		str = "Key Pressed";
+		showStatus("Key is Pressed");
+		repaint();
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		str="Key Released";
+		showStatus("Key is Released");
+		repaint();
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		char key = e.getKeyChar();
+		str = "Key Typed: ";
+		str+=key;
+		showStatus("Key is Typed");
+		repaint();
+	}
+	public void paint(Graphics g) {
+		g.drawString(str,50,50);
+	}
 }
+
