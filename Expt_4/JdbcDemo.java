@@ -1,50 +1,47 @@
 import java.sql.*;
 
-public class JdbcDemo {
-    public static void main(String[] args) {
-        try {
-            // 1. Load Driver
+public class JdbcDemo
+{
+    public static void main(String args[])
+    {
+        try
+        {
+            // Load Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-            
-            // 2. Establish Connection
+
+            // Create Connection
             Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/studentdb", "root", "password");
-                
-            // 3. Insert Data
-            String insertQuery = "INSERT INTO student VALUES (?,?,?)";
-            PreparedStatement ps = con.prepareStatement(insertQuery);
-            ps.setInt(1, 1);
-            ps.setString(2, "Soham");
-            ps.setInt(3, 85);
-            ps.executeUpdate();
-            System.out.println("Data Inserted Successfully!");
-            
-            // 4. Retrieve Data
-            String selectQuery = "SELECT * FROM student";
+                "jdbc:mysql://localhost:3306/college",
+                "root",
+                ""
+            );
+
+            // Insert Data
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(selectQuery);
-            
-            System.out.println("\nStudent Records:");
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                int marks = rs.getInt("marks");
-                System.out.println(id + " " + name + " " + marks);
+
+            st.executeUpdate(
+                "insert into student values(1,'Anjali',90)"
+            );
+
+            // Retrieve Data
+            ResultSet rs = st.executeQuery(
+                "select * from student"
+            );
+
+            while(rs.next())
+            {
+                System.out.println(
+                    rs.getInt(1) + " " +
+                    rs.getString(2) + " " +
+                    rs.getInt(3)
+                );
             }
-            
-            // 5. Close Connection
+
             con.close();
-        } catch (Exception e) {
+        }
+        catch(Exception e)
+        {
             System.out.println(e);
         }
     }
 }
-
-/*
-Notes:
-//LOAD DRIVER
-Class.forName("com.mysql.cj.jdbc.Driver");
-
-//ESTABLISH CONNECTION
-DriverManager.getConnection(...)
-*/
